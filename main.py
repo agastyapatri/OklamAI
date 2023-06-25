@@ -11,7 +11,10 @@ from oklamai.dataset import KDATA
 from oklamai.models import GANDRICK
 
 dataset = KDATA(PATH = "data/KDOT.txt")
-
+dataloader = torch.utils.data.DataLoader(dataset, batch_size = 8, shuffle=False)
+for i, data in enumerate(dataloader):
+    print(data.dtype)
+    break 
 
 
 

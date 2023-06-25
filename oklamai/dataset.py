@@ -21,13 +21,14 @@ class KDATA(torch.utils.data.Dataset):
         self.lyrics = None 
         with open(PATH, "r") as f:
             self.lyrics = f.readlines()
+        self.tensor = torch.tensor(self._one_hot_encoded(), dtype=torch.float32)
 
     
     def __getitem__(self, i) -> torch.Tensor:
-        return self.lyrics[i]
+        return self.tensor[i]
 
     def __len__(self, ) -> int:
-        return len(self.lyrics) 
+        return len(self.tensor) 
     
     def _tokenize_data(self, ) -> list:
         """
@@ -49,7 +50,7 @@ class KDATA(torch.utils.data.Dataset):
             cleaned_lyrics.append(split_sentence)
         return tokenized
     
-    def _one_hot_encode(self, word=None, vocab_size=None):
+    def _one_hot_encoded(self, word=None, vocab_size=None):
         """
             Function to one-hot-encode the words in the tokeneized dataset
             

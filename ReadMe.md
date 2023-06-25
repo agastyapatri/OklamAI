@@ -12,6 +12,13 @@ steps to prepare a text corpus for ingestion:
    
 4. Padding: This is the process of adding padding to the encoded text. This is necessary to ensure that all the text samples have all the same length. 
 
+## **Notes**
+
+At this stage, I'm working on getting an implementation working; the finetuning will come later 
+
+* I've opted for one-hot encoding at this stage
+
+
 
 
 
