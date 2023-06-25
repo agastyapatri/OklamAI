@@ -29,21 +29,55 @@ class KDATA(torch.utils.data.Dataset):
     def __len__(self, ) -> int:
         return len(self.lyrics) 
     
-    def prepare_data(self, ):
+    def _tokenize_data(self, ) -> list:
         """
             Function to convert plain text into a format which is suitable as an input for the neural network model
-
         """
-        pass 
-        
+        excludes = ["[",  "]", "\n", "''", ",", ".", "!", ":", "?", ")", "(", "*"]
 
-if __name__ == "__main__":
-    test = KDATA(PATH = "data/KDOT.txt")
-    for i in range(len(test)):
-        print(test[i])
+        #   cleaning the letters and re-adding to the corpus 
+        cleaned_lyrics = []
+        tokenized = []
+        for i in range(len(self.lyrics)):
+            sentence = self.lyrics[i]
+            split_sentence = sentence.split(" ")
+            for i in range(len(split_sentence)):
+                word = split_sentence[i]
+                new_word = "".join([char for char in word if char not in excludes])
+                tokenized.append(new_word.lower())
+                split_sentence[i] = new_word
+            cleaned_lyrics.append(split_sentence)
+        return tokenized
+    
+    def _one_hot_encode(self, word=None, vocab_size=None):
+        """
+            Function to one-hot-encode the words in the tokeneized dataset
+            
+            [args]:
+                word:str - the word to be encoded
+                vocab_size - the size of the set of unique words in the vocabulary 
+        """
+        tokenized = self._tokenize_data()
+        vocab = list(set(tokenized)) 
+        encoding_map = {} 
 
-        if i == 49: 
-            break 
+        for i in range(len(vocab)):
+            word = vocab[i]
+            encoded = np.zeros(len(vocab))
+            encoded[i] = 1
+            encoding_map[word] = encoded
+
+        encoded = [encoding_map[word] for word in tokenized]
+        return np.array(encoded)
+
 
 
     
+
+                 
+    
+
+if __name__ == "__main__":
+    test = KDATA(PATH = "data/KDOT.txt")
+
+
