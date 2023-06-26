@@ -19,6 +19,22 @@ At this stage, I'm working on getting an implementation working; the finetuning 
 * I've opted for one-hot encoding at this stage
 
 
+Steps to create the model:  
+    1. Collect a dataset of lyrics
+    2. Clean and preprocess the data 
+    3. Choose a neu ral network architecture:    LSTM, GRU, Transformer
+    4. Train the model
+    5. Generate Lyrics
+
+* The batch size dictates the length of the sequence. 
+
+
+### **Text Generation with LSTM in PyTorch**
+RNNs can be used for time series prediction (regression). They can also be used as generative models (classification).
+
+A generative model learns certain pattern from data, such that it can generate a sequence in the same style as the learned data. Generative Adversarial Networks are a class of their own. Transformer models that use attention mechanisms are also useful to generate text passages. 
+
+
 
 
 

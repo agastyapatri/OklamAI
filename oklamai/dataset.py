@@ -21,7 +21,10 @@ class KDATA(torch.utils.data.Dataset):
         self.lyrics = None 
         with open(PATH, "r") as f:
             self.lyrics = f.readlines()
-        self.tensor = torch.tensor(self._one_hot_encoded(), dtype=torch.float32)
+
+        self.encoding_map = self._one_hot_encoded()[1]
+        self.tensor = torch.tensor(self._one_hot_encoded()[0], dtype=torch.float32)
+        self.dim = self.tensor.shape[1]
 
     
     def __getitem__(self, i) -> torch.Tensor:
@@ -34,7 +37,7 @@ class KDATA(torch.utils.data.Dataset):
         """
             Function to convert plain text into a format which is suitable as an input for the neural network model
         """
-        excludes = ["[",  "]", "\n", "''", ",", ".", "!", ":", "?", ")", "(", "*"]
+        excludes = ["[",  "]", "\n", "''", ",", ".", "!", ":", "?", ")", "(", "*", " "]
 
         #   cleaning the letters and re-adding to the corpus 
         cleaned_lyrics = []
@@ -69,7 +72,7 @@ class KDATA(torch.utils.data.Dataset):
             encoding_map[word] = encoded
 
         encoded = [encoding_map[word] for word in tokenized]
-        return np.array(encoded)
+        return np.array(encoded), encoding_map
 
 
 
